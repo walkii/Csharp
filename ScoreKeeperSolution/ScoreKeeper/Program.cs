@@ -10,6 +10,9 @@ namespace ScoreKeeper
     {
         static void Main(string[] args)
         {
+            var Interface = new UserInterface();
+            Interface.Process();
+            Console.ReadLine();
         }
     }
 }
