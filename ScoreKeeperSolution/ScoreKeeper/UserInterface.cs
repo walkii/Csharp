@@ -12,7 +12,7 @@ namespace ScoreKeeper
        public void Process()
        {
             var Calculate = new Calculate();
-            
+            Calculate.inputScore();
             InformationUser();
             string Input = "", InputLower="";
             string InputIntoWhile = "", InputLowerIntoWhile = "";
@@ -43,12 +43,13 @@ namespace ScoreKeeper
                     ListUsers = Calculate.list();
                     foreach (User list in ListUsers)
                     {
-                        Console.WriteLine("Playeur :"+ list.Name + " Score :" + list.Points + " Game :" + list.Games);
+                        Console.WriteLine("Playeur :" + list.Name + "\t" + " Score :" + list.Points + "\t" + " Game :" + list.Games);
                     }
                     Console.WriteLine("\n");
                 }
                 else if (InputLower == "quit")
                 {
+                    Calculate.SaveScore();
                     Console.WriteLine("Thanks, press enter to quit.");
                 }
                 else
@@ -69,10 +70,11 @@ namespace ScoreKeeper
         private string ControlString(string S)
         {
             S = S.ToLower();
-            string pattern = "[A-Z0-9/\" \"#@.,;:\\!?|$%^*]+";
+            string pattern = "[A-Z0-9/\" \"#@.,;:\\!?|$%^*{}]+";
             string replacement = "";
             Regex rgx = new Regex(pattern);
             string result = rgx.Replace(S, replacement);
+            result = result.First().ToString().ToUpper() + result.Substring(1);
             return result;
         }
 
@@ -88,11 +90,11 @@ namespace ScoreKeeper
 
             if (int.TryParse(result, out ReturnPoint))
             {
-                if (ReturnPoint > 10)
+                if (ReturnPoint > 9)
                 {
-                    Console.WriteLine("the score is greater than 10, press 'y' if your sure.");
+                    Console.WriteLine("the score is greater than 9, press 'y' if your sure.");
 
-                    if (ControlString(Console.ReadLine()) == "y")
+                    if (ControlString(Console.ReadLine()) == "Y")
                     {
                         return ReturnPoint;
                     }

@@ -24,7 +24,14 @@ namespace ScoreKeeper
         {
             NamePrivate = name;
             PointsPrivate = points;
-            Games = 1;
+            GamesPrivate = 1;
+        }
+
+        public User(string name, int points, int games)
+        {
+            NamePrivate = name;
+            PointsPrivate = points;
+            GamesPrivate = games;
         }
 
         public string Name
