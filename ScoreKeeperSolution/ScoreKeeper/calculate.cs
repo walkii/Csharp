@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,31 +11,29 @@ namespace ScoreKeeper
     {
         private List<User> ListUsers;
         private List<User> ListUsersSave;
-        //  private int NbUser = 0;
+
         public Calculate(){
-            //var User = new User();
             ListUsers = new List<User>();
         }
 
-        public void add(string name, int points)
+        public void AddUser(string name, int points)
         {
-            //User t1 = new User(name,points);
-            //ListUsers.Add(t1);
-            User TryUser = ListUsers.Find(delegate (User match) { return (match.Name == name); });
-            if (TryUser is null)
+
+            //User TryUser = ListUsers.Find(delegate (User match) { return (match.Name == name); });
+            var tryUser = ListUsers.FirstOrDefault(u => u.Name == name);
+            if (tryUser is null)
             {
-               // System.Diagnostics.Debug.WriteLine("good: " + TryUser);
                 ListUsers.Add(new User(name, points));
             }
             else
             {
-               // System.Diagnostics.Debug.WriteLine("TryUser: " + TryUser);
-                TryUser.Points +=points;
-                TryUser.Games++;
+                tryUser.Points +=points;
+                tryUser.Games++;
             }
+            SaveScore();
         }
 
-        public List<User> list()
+        public List<User> List()
         {
             //trier la liste
             ListUsers.Sort(delegate (User x, User y)
@@ -46,8 +45,8 @@ namespace ScoreKeeper
 
         public void SaveScore()
         {
-            int i = 0;
-            ListUsersSave = list();
+            var i = 0;
+            ListUsersSave = List();
             string[] lines= new string[ListUsersSave.Count];
 
             foreach (User listUser in ListUsersSave)
@@ -55,16 +54,15 @@ namespace ScoreKeeper
                 lines[i]= listUser.Name+":"+ listUser.Points+":"+ listUser.Games;
                 i++;
             }
-            //= { "First line", "Second line", "Third line" };
-            System.IO.File.WriteAllLines(@"C:\Users\julien\Documents\GitHub\Csharp\ScoreKeeperSolution\ScoreKeeper\bdd\Score.txt", lines);
+            File.WriteAllLines(@".\bdd\Score.txt", lines);
         }
 
-        public void inputScore()
+        public void InputScore()
         {
             string[] lineSplit;
             Char delimiter = ':';
             int points, games;
-            string[] lines = System.IO.File.ReadAllLines(@"C:\Users\julien\Documents\GitHub\Csharp\ScoreKeeperSolution\ScoreKeeper\bdd\Score.txt");
+            string[] lines = File.ReadAllLines(@".\bdd\Score.txt");
             foreach (string line in lines)
             {
                 lineSplit = line.Split(delimiter);

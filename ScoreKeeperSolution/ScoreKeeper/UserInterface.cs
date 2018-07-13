@@ -11,45 +11,44 @@ namespace ScoreKeeper
     {
        public void Process()
        {
-            var Calculate = new Calculate();
-            Calculate.inputScore();
+            var calculate = new Calculate();
+            calculate.InputScore();
             InformationUser();
-            string Input = "", InputLower="";
-            string InputIntoWhile = "", InputLowerIntoWhile = "";
-            string name = "";
-            int points = 0;
+            string readInput = "";
+            string readInputIntoWhile = "";
+            string nameUser = "";
+            int pointsUser = 0;
             List<User> ListUsers;
 
-            while (InputLower != "quit")
+            while (readInput != "quit")
             {
-                Input = Console.ReadLine();
-                InputLower= Input.ToLower();
-                if (InputLower == "add")
+                readInput = Console.ReadLine();
+                readInput = readInput.ToLower();
+                if (readInput == "add")
                 {
                     Console.WriteLine("Name's player");
-                    InputIntoWhile = Console.ReadLine();
-                    name =ControlString(InputIntoWhile);
+                    readInputIntoWhile = Console.ReadLine();
+                    nameUser =ControlString(readInputIntoWhile);
                     
-                    Console.WriteLine("Enter the " + InputLowerIntoWhile + "'s point(s)");
-                    InputIntoWhile = Console.ReadLine();
-                    points = ControlInt(InputIntoWhile);
-                    if (points != -1)
+                    Console.WriteLine("Enter the " + nameUser + "'s point(s)");
+                    readInputIntoWhile = Console.ReadLine();
+                    pointsUser = ControlInt(readInputIntoWhile);
+                    if (pointsUser != -1)
                     {
-                        Calculate.add(name, points);
-                        Console.WriteLine("Save ok to " + name + " with " + points + " point(s)\n");
+                        calculate.AddUser(nameUser, pointsUser);
+                        Console.WriteLine("Save ok to " + nameUser + " with " + pointsUser + " point(s)\n");
                     }
                 }
-                else if (InputLower == "list") {
-                    ListUsers = Calculate.list();
+                else if (readInput == "list") {
+                    ListUsers = calculate.List();
                     foreach (User list in ListUsers)
                     {
                         Console.WriteLine("Playeur :" + list.Name + "\t" + " Score :" + list.Points + "\t" + " Game :" + list.Games);
                     }
                     Console.WriteLine("\n");
                 }
-                else if (InputLower == "quit")
+                else if (readInput == "quit")
                 {
-                    Calculate.SaveScore();
                     Console.WriteLine("Thanks, press enter to quit.");
                 }
                 else
@@ -67,30 +66,27 @@ namespace ScoreKeeper
             Console.WriteLine("To quit the console, write quit.");
         }
 
-        private string ControlString(string S)
+        private string ControlString(string inputString)
         {
-            S = S.ToLower();
+            inputString = inputString.ToLower().Trim();
             //string pattern = "[A-Z0-9/\" \"#@.,;:\\!?|$%^*{}]+";
-            string pattern = "[A-Z0-9/#@.,;:\\!?|$%^*{}]+";
-            string pattern1 = "[\" \"]+$";
-            string replacement = "";
-            Regex rgx = new Regex(pattern);
-            string result = rgx.Replace(S, replacement);
-            Regex rgx1 = new Regex(pattern1);
-             result = rgx1.Replace(result, replacement);
+            var pattern = "[A-Z0-9/#@.,;:\\!?|$%^*{}]+";
+            var replacement = "";
+            var rgx = new Regex(pattern);
+            var result = rgx.Replace(inputString, replacement);
             result = result.First().ToString().ToUpper() + result.Substring(1);
             return result;
         }
 
-        private int ControlInt(string I)
+        private int ControlInt(string inputString)
         {
             int ReturnPoint;
-            bool testUser = false;
-            I = I.ToLower();
-            string pattern = "[a-zA-Z/\" \"#@.,;:\\!?|$%^*]+";
-            string replacement = "";
-            Regex rgx = new Regex(pattern);
-            string result = rgx.Replace(I, replacement);
+            var testUser = false;
+            inputString = inputString.ToLower();
+            var pattern = "[a-zA-Z/\" \"#@.,;:\\!?|$%^*]+";
+            var replacement = "";
+            var rgx = new Regex(pattern);
+            var result = rgx.Replace(inputString, replacement);
 
             if (int.TryParse(result, out ReturnPoint))
             {

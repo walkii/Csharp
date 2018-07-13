@@ -9,51 +9,51 @@ namespace ScoreKeeper
     class User
     {
        
-        private string NamePrivate;
-        private int PointsPrivate;
-        private int GamesPrivate;
+        private string namePrivate;
+        private int pointsPrivate;
+        private int gamesPrivate;
 
         public User()
         {
-            NamePrivate = "Groot";
-            PointsPrivate = 100;
-            GamesPrivate = 1;
+            namePrivate = "Groot";
+            pointsPrivate = 100;
+            gamesPrivate = 1;
         }
 
         public User(string name, int points)
         {
-            NamePrivate = name;
-            PointsPrivate = points;
-            GamesPrivate = 1;
+            namePrivate = name;
+            pointsPrivate = points;
+            gamesPrivate = 1;
         }
 
         public User(string name, int points, int games)
         {
-            NamePrivate = name;
-            PointsPrivate = points;
-            GamesPrivate = games;
+            namePrivate = name;
+            pointsPrivate = points;
+            gamesPrivate = games;
         }
 
         public string Name
         {
             get
             {
-                return NamePrivate;
+                return namePrivate;
             }
             set
             {
-                NamePrivate = value;
+                namePrivate = value;
             }
         }
         public int Points
         {
             get
             {
-                return PointsPrivate;
+                return pointsPrivate;
             }
             set
             {
-                PointsPrivate = value;
+                pointsPrivate = value;
             }
         }
 
@@ -61,11 +61,11 @@ namespace ScoreKeeper
         {
             get
             {
-                return GamesPrivate;
+                return gamesPrivate;
             }
             set
             {
-                GamesPrivate = value;
+                gamesPrivate = value;
             }
         }
 
