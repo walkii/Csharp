@@ -70,10 +70,14 @@ namespace ScoreKeeper
         private string ControlString(string S)
         {
             S = S.ToLower();
-            string pattern = "[A-Z0-9/\" \"#@.,;:\\!?|$%^*{}]+";
+            //string pattern = "[A-Z0-9/\" \"#@.,;:\\!?|$%^*{}]+";
+            string pattern = "[A-Z0-9/#@.,;:\\!?|$%^*{}]+";
+            string pattern1 = "[\" \"]+$";
             string replacement = "";
             Regex rgx = new Regex(pattern);
             string result = rgx.Replace(S, replacement);
+            Regex rgx1 = new Regex(pattern1);
+             result = rgx1.Replace(result, replacement);
             result = result.First().ToString().ToUpper() + result.Substring(1);
             return result;
         }
