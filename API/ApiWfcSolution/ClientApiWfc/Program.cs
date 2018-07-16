@@ -11,6 +11,9 @@ namespace ClientApiWfc
         static void Main(string[] args)
         {
             var input = "";
+            var pointPlayer = "";
+            var namePlayer = "";
+            var concat = "";
             var client = new ServiceReference1.Service1Client();
 
             do
@@ -19,7 +22,12 @@ namespace ClientApiWfc
                 input=  Console.ReadLine();
                 if (input == "add")
                 {
-                    Console.WriteLine($"{client.SetUser("vince:2")}");
+                    Console.WriteLine("the player name");
+                    namePlayer = Console.ReadLine();
+                    Console.WriteLine("the player point");
+                    pointPlayer = Console.ReadLine();
+                    concat = namePlayer+":"+ pointPlayer;
+                    Console.WriteLine($"{client.SetUser(concat)}");
                 }
                 else
                 {

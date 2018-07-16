@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace ScoreKeeper
 {
@@ -69,6 +70,25 @@ namespace ScoreKeeper
                 int.TryParse(lineSplit[1], out points);
                 int.TryParse(lineSplit[2], out games);
                 ListUsers.Add(new User(lineSplit[0], points, games));
+            }
+        }
+
+        public void testbdd()
+        {
+            SqlConnection myConnection = new SqlConnection("user id=julien;" +
+                                       "password=walki;server=serverurl;" +
+                                       "Trusted_Connection=yes;" +
+                                       "database=database; " +
+                                       "connection timeout=30");
+
+            try
+            {
+                myConnection.Open();
+                System.Diagnostics.Debug.WriteLine("good: ");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
             }
         }
     }

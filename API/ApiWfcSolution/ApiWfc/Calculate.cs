@@ -47,10 +47,10 @@ namespace ApiWfc
         public void SaveScore()
         {
             var i = 0;
-            //ListUsersSave = List();
-            string[] lines = new string[ListUsers.Count];
+            ListUsersSave = List();
+            string[] lines = new string[ListUsersSave.Count];
 
-            foreach (User listUser in ListUsers)
+            foreach (User listUser in ListUsersSave)
             {
                 lines[i] = listUser.Name + ":" + listUser.Points + ":" + listUser.Games;
                 i++;
