@@ -12,8 +12,11 @@ namespace ScoreKeeper
        public void Process()
        {
             var calculate = new Calculate();
-            calculate.InputScore();
+            //calculate.testbdd();
+            //calculate.InputScore();
+            calculate.InputScoreSQL();
             InformationUser();
+            
             string readInput = "";
             string readInputIntoWhile = "";
             string nameUser = "";
