@@ -11,6 +11,5 @@ namespace APIScoreKeeper.Models
         public string Name { get; set; }
         public int Points { get; set; }
         public int Games { get; set; }
-        public int ScoreKeeper { get; set; }
     }
 }
