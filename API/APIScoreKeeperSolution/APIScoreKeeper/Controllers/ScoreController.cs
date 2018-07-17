@@ -28,8 +28,8 @@ namespace APIScoreKeeper.Controllers
                     int.TryParse(myReader["ID"].ToString(), out id);
                     int.TryParse(myReader["POINTS"].ToString(), out points);
                     int.TryParse(myReader["GAMES"].ToString(), out games);
-
-                    scores[i] = new Score { Id = id, Name = myReader["NAME"].ToString(), Points = points, Games = games };
+                   
+                    scores[i] = new Score { Id = id, Name = myReader["NAME"].ToString(), Points = points, Games = games, LastGame= myReader["LASTGAME"].ToString() };
                     i++;
                 }
                 myConnectionSQL.Close();
@@ -38,8 +38,6 @@ namespace APIScoreKeeper.Controllers
             {
                 Console.WriteLine(e.ToString());
             }
-
-            ///////
             return scores;
         }
         //localhost:63254/api/score
