@@ -83,6 +83,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="HtmlPage1.html" />
+    <Content Include="PageCss.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

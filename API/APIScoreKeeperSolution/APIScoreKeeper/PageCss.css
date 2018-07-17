@@ -1,0 +1,24 @@
+﻿body {
+    background-color:azure;
+}
+
+.block1 {
+    width: 400px;
+    height: 600px;
+    background-color: #333333;
+    color:white;
+    padding: 5px;
+}
+
+table, th {
+    border: 1px solid white;
+    width: 100%;
+}
+
+.image {
+    width: 400px;
+    height: 200px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}

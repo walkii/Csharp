@@ -2,12 +2,19 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>ScoreKeeper App</title>
+    <link rel="stylesheet" href="PageCss.css" />
 </head>
+    <title>ScoreKeeper App</title>
 <body>
-    <div>
-        <h2>All Score</h2>
-        <ul id="scores" />
+    <div class="block1">
+        <h2 title="Scores">All Scores</h2>
+        <!--<ul id="scores" />-->
+        <div id="table">
+            <table id="myTable"></table>
+        </div>
+        <div class="image">
+            <img src="images/bascket.jpg">
+        </div>
     </div>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
     <script>
@@ -20,7 +27,8 @@
                     // On success, 'data' contains a list of products.
                     $.each(data, function (key, item) {
                         // Add a list item for the product.
-                        $('<li>', { text: formatItem(item) }).appendTo($('#scores'));
+                        //$('<li>', { text: formatItem(item) }).appendTo($('#scores'));
+                        addTable(item);
                     });
                 });
         });
@@ -29,6 +37,22 @@
             return "Name : " + item.Name + " Points : " + item.Points + " Games : " + item.Games + " Last game : " + item.LastGame;
         }
 
+        function addTable(item) {
+            var IdTable = document.getElementById("myTable");
+            var tblBody = document.createElement("tbody");
+            var row = document.createElement("tr");
+            var cellName = document.createElement("td");
+            var cellTextName = document.createTextNode(item.Name); 
+            cellName.appendChild(cellTextName);
+            var cellPoint = document.createElement("td");
+            var cellTextPoint = document.createTextNode(item.Points+" Points");
+            cellPoint.appendChild(cellTextPoint);
+            row.appendChild(cellName);
+            row.appendChild(cellPoint);
+            tblBody.appendChild(row);
+            IdTable.appendChild(tblBody);
+        }
+
     </script>
-</body >
-</html >
+</body>
+</html>
