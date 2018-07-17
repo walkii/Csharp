@@ -11,17 +11,20 @@ namespace ScoreKeeper
     {
        public void Process()
        {
-            var calculate = new Calculate();
-            //calculate.testbdd();
-            //calculate.InputScore();
-            calculate.InputScoreSQL();
-            InformationUser();
-            
+            bool linkBDD = false;
             string readInput = "";
             string readInputIntoWhile = "";
             string nameUser = "";
             int pointsUser = 0;
             List<User> ListUsers;
+            Console.WriteLine("Type of link, Bdd or none");
+            readInput = ControlString(Console.ReadLine());
+            if (readInput == "Bdd") { linkBDD = true; }
+            var calculate = new Calculate(linkBDD);
+            if (linkBDD) { calculate.InputScoreSQL(); }
+            else { calculate.InputScore(); }
+            //calculate.testbdd();
+            InformationUser();
 
             while (readInput != "quit")
             {

@@ -13,14 +13,16 @@ namespace ScoreKeeper
     {
         private List<User> ListUsers;
         private List<User> ListUsersSave;
+        private bool linkBdd;
 
-        public Calculate(){
+        public Calculate(bool linkBDD)
+        {
             ListUsers = new List<User>();
+            linkBdd = linkBDD;
         }
 
         public void AddUser(string name, int points)
         {
-
             //User TryUser = ListUsers.Find(delegate (User match) { return (match.Name == name); });
             var tryUser = ListUsers.FirstOrDefault(u => u.Name == name);
             if (tryUser is null)
@@ -32,8 +34,8 @@ namespace ScoreKeeper
                 tryUser.Points +=points;
                 tryUser.Games++;
             }
-            //SaveScore();
-            SaveScoreSQL(ListUsers.FirstOrDefault(u => u.Name == name));
+            if (linkBdd) { SaveScoreSQL(ListUsers.FirstOrDefault(u => u.Name == name)); }
+            else { SaveScore(); }
         }
 
         public List<User> List()
