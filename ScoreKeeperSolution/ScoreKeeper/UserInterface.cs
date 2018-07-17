@@ -46,7 +46,11 @@ namespace ScoreKeeper
                     ListUsers = calculate.List();
                     foreach (User list in ListUsers)
                     {
-                        Console.WriteLine("Playeur :" + list.Name + "\t" + " Score :" + list.Points + "\t" + " Game :" + list.Games);
+                        Console.WriteLine("Playeur :" + list.Name + "\t" + " Score :" + list.Points + "\t" + " Game :" + list.Games + "\t" + " Last game :" + list.LastGame);
+                    }
+                    if(ListUsers.Count == 0)
+                    {
+                        Console.WriteLine("No score available.");
                     }
                     Console.WriteLine("\n");
                 }

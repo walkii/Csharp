@@ -12,12 +12,14 @@ namespace ScoreKeeper
         private string namePrivate;
         private int pointsPrivate;
         private int gamesPrivate;
+        private DateTime lastGamePrivate;
 
         public User()
         {
             namePrivate = "Groot";
             pointsPrivate = 100;
             gamesPrivate = 1;
+            lastGamePrivate = DateTime.Now;
         }
 
         public User(string name, int points)
@@ -25,13 +27,15 @@ namespace ScoreKeeper
             namePrivate = name;
             pointsPrivate = points;
             gamesPrivate = 1;
+            lastGamePrivate = DateTime.Now;
         }
 
-        public User(string name, int points, int games)
+        public User(string name, int points, int games, DateTime date)
         {
             namePrivate = name;
             pointsPrivate = points;
             gamesPrivate = games;
+            lastGamePrivate = date;
         }
 
         public string Name
@@ -66,6 +70,18 @@ namespace ScoreKeeper
             set
             {
                 gamesPrivate = value;
+            }
+        }
+
+        public DateTime LastGame
+        {
+            get
+            {
+                return lastGamePrivate;
+            }
+            set
+            {
+                lastGamePrivate = value;
             }
         }
 

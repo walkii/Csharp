@@ -54,7 +54,7 @@ namespace ScoreKeeper
 
             foreach (User listUser in ListUsersSave)
             {
-                lines[i]= listUser.Name+":"+ listUser.Points+":"+ listUser.Games;
+                lines[i]= listUser.Name+":"+ listUser.Points+":"+ listUser.Games + ":" + listUser.LastGame;
                 i++;
             }
             File.WriteAllLines(@".\bdd\Score.txt", lines);
@@ -65,13 +65,15 @@ namespace ScoreKeeper
             string[] lineSplit;
             Char delimiter = ':';
             int points, games;
+            DateTime lastGame;
             string[] lines = File.ReadAllLines(@".\bdd\Score.txt");
             foreach (string line in lines)
             {
                 lineSplit = line.Split(delimiter);
                 int.TryParse(lineSplit[1], out points);
                 int.TryParse(lineSplit[2], out games);
-                ListUsers.Add(new User(lineSplit[0], points, games));
+                DateTime.TryParse(lineSplit[3], out lastGame);
+                ListUsers.Add(new User(lineSplit[0], points, games, lastGame));
             }
         }
 
@@ -79,7 +81,7 @@ namespace ScoreKeeper
         {
             SqlConnection myConnectionSQL = new SqlConnection("Server=DESKTOP-VKS9AR0\\SQLEXPRESS;Database=ScoreKeeper;Trusted_Connection=True;");
             SqlCommand insertSQL;
-            SqlParameter myParamName, myParamPoints, myParamGames;
+            SqlParameter myParamName, myParamPoints, myParamGames, myParamLastGame;
             try
             {
                 myConnectionSQL.Open();
@@ -89,15 +91,17 @@ namespace ScoreKeeper
                 myParamName.Value = user.Name;
                 myParamPoints = new SqlParameter("@ParamPoints", SqlDbType.Int, 4);
                 myParamPoints.Value = user.Points;
-
                 myParamGames = new SqlParameter("@ParamGames", SqlDbType.Int, 4);
                 myParamGames.Value = user.Games;
+                myParamLastGame = new SqlParameter("@ParamLastGame", SqlDbType.DateTime, 255);
+                myParamLastGame.Value = user.LastGame;
 
                 //insertSQL = new SqlCommand("INSERT INTO dbo.score  VALUES (@ParamName, @ParamPoints, @ParamGames)", myConnectionSQL);
-                insertSQL = new SqlCommand("EXEC InserUser @Name = @ParamName, @Points = @ParamPoints, @Games = @ParamGames", myConnectionSQL);
+                insertSQL = new SqlCommand("EXEC InserUser @Name = @ParamName, @Points = @ParamPoints, @Games = @ParamGames, @LastGame = @ParamLastGame", myConnectionSQL);
                 insertSQL.Parameters.Add(myParamName);
                 insertSQL.Parameters.Add(myParamPoints);
                 insertSQL.Parameters.Add(myParamGames);
+                insertSQL.Parameters.Add(myParamLastGame);
                 insertSQL.ExecuteNonQuery();
                
                 myConnectionSQL.Close();
@@ -112,6 +116,7 @@ namespace ScoreKeeper
         {
             SqlConnection myConnectionSQL = new SqlConnection("Server=DESKTOP-VKS9AR0\\SQLEXPRESS;Database=ScoreKeeper;Trusted_Connection=True;");
             int points, games;
+            DateTime lastGame;
             try
             {
                 myConnectionSQL.Open();
@@ -122,7 +127,8 @@ namespace ScoreKeeper
                 {
                     int.TryParse(myReader["POINTS"].ToString(), out points);
                     int.TryParse(myReader["GAMES"].ToString(), out games);
-                    ListUsers.Add(new User(myReader["NAME"].ToString(), points, games));
+                    DateTime.TryParse(myReader["LASTGAME"].ToString(), out lastGame);
+                    ListUsers.Add(new User(myReader["NAME"].ToString(), points, games, lastGame));
                 }
                 myConnectionSQL.Close();
             }
