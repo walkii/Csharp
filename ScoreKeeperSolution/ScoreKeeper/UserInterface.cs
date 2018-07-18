@@ -1,69 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ScoreKeeper
 {
     class UserInterface
     {
-       public void Process()
+        private enum function { Add, List, Quit };
+        private List<User> ListUsers;
+
+        public void Process()
        {
             bool linkBDD = false;
             string readInput = "";
-            string readInputIntoWhile = "";
-            string nameUser = "";
-            int pointsUser = 0;
-            List<User> ListUsers;
+
             Console.WriteLine("Type of link, Bdd or none");
             readInput = ControlString(Console.ReadLine());
-            if (readInput == "Bdd") { linkBDD = true; }
+
+            if (readInput == "Bdd")
+            {
+                linkBDD = true;
+            }
+
             var calculate = new Calculate(linkBDD);
-            if (linkBDD) { calculate.InputScoreSQL(); }
-            else { calculate.InputScore(); }
-            //calculate.testbdd();
+
+            if (linkBDD)
+            {
+                calculate.InputScoreSQL();
+            }
+            else
+            {
+                calculate.InputScore();
+            }
+
             InformationUser();
 
-            while (readInput != "quit")
+            while (readInput != "Quit")
             {
-                readInput = Console.ReadLine();
-                readInput = readInput.ToLower();
-                if (readInput == "add")
+                readInput =ControlString(Console.ReadLine());
+
+                function func = (function)System.Enum.Parse(typeof(function), readInput);
+                switch (func)
                 {
-                    Console.WriteLine("Name's player");
-                    readInputIntoWhile = Console.ReadLine();
-                    nameUser =ControlString(readInputIntoWhile);
-                    
-                    Console.WriteLine("Enter the " + nameUser + "'s point(s)");
-                    readInputIntoWhile = Console.ReadLine();
-                    pointsUser = ControlInt(readInputIntoWhile);
-                    if (pointsUser != -1)
-                    {
-                        calculate.AddUser(nameUser, pointsUser);
-                        Console.WriteLine("Save ok to " + nameUser + " with " + pointsUser + " point(s)\n");
-                    }
-                }
-                else if (readInput == "list") {
-                    ListUsers = calculate.List();
-                    foreach (User list in ListUsers)
-                    {
-                        Console.WriteLine("Playeur :" + list.Name + "\t" + " Score :" + list.Points + "\t" + " Game :" + list.Games + "\t" + " Last game :" + list.LastGame);
-                    }
-                    if(ListUsers.Count == 0)
-                    {
-                        Console.WriteLine("No score available.");
-                    }
-                    Console.WriteLine("\n");
-                }
-                else if (readInput == "quit")
-                {
-                    Console.WriteLine("Thanks, press enter to quit.");
-                }
-                else
-                {
-                    Console.WriteLine("Bad request, try again.");
+                    case function.Add:
+                        addFunction(calculate);
+                        break;
+                    case function.List:
+                        listFunction(calculate);
+                        break;
+                    case function.Quit:
+                        quitFunction();
+                        break;
+                    default:
+                        defaultFunction();
+                        break;
                 }
             }
         }
@@ -79,13 +70,17 @@ namespace ScoreKeeper
         private string ControlString(string inputString)
         {
             inputString = inputString.ToLower().Trim();
-            //string pattern = "[A-Z0-9/\" \"#@.,;:\\!?|$%^*{}]+";
             var pattern = "[A-Z0-9/#@.,;:\\!?|$%^*{}]+";
             var replacement = "";
+
             var rgx = new Regex(pattern);
             var result = rgx.Replace(inputString, replacement);
-            result = result.First().ToString().ToUpper() + result.Substring(1);
-            return result;
+            if (result.Length != 0)
+            {
+                result = result.First().ToString().ToUpper() + result.Substring(1);
+                return result;
+            }
+            return "";
         }
 
         private int ControlInt(string inputString)
@@ -126,6 +121,53 @@ namespace ScoreKeeper
             }
 
             return -1;
+        }
+
+        private void addFunction(Calculate calculate)
+        {
+            string readInputIntoWhile = "";
+            string nameUser = "";
+            int pointsUser = 0;
+
+            Console.WriteLine("Name's player");
+            readInputIntoWhile = Console.ReadLine();
+            nameUser = ControlString(readInputIntoWhile);
+
+            Console.WriteLine("Enter the " + nameUser + "'s point(s)");
+            readInputIntoWhile = Console.ReadLine();
+            pointsUser = ControlInt(readInputIntoWhile);
+
+            if (pointsUser != -1)
+            {
+                calculate.AddUser(nameUser, pointsUser);
+                Console.WriteLine("Save ok to " + nameUser + " with " + pointsUser + " point(s)\n");
+            }
+        }
+
+        private void listFunction(Calculate calculate)
+        {
+            ListUsers = calculate.List();
+            foreach (User list in ListUsers)
+            {
+                Console.WriteLine("Playeur :" + list.Name + "\t" + " Score :" + list.Points + "\t" + " Game :" + list.Games + "\t" + " Last game :" + list.LastGame);
+            }
+
+            if (ListUsers.Count == 0)
+            {
+                Console.WriteLine("No score available.");
+            }
+
+            Console.WriteLine("\n");
+        }
+
+        private void quitFunction()
+        {
+            Console.WriteLine("Thanks, press enter to quit.");
+        }
+
+        private void defaultFunction()
+        {
+            Console.WriteLine("Bad request, try again.");
         }
     }
 }

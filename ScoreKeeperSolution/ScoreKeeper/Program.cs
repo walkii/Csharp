@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScoreKeeper
 {
@@ -11,6 +7,7 @@ namespace ScoreKeeper
         static void Main(string[] args)
         {
             var userInterface = new UserInterface();
+
             userInterface.Process();
             Console.ReadLine();
         }
