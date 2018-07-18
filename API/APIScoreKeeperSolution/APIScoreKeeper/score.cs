@@ -14,10 +14,10 @@ namespace APIScoreKeeper
         [StringLength(100)]
         public string NAME { get; set; }
 
-        public int? POINTS { get; set; }
+        public int POINTS { get; set; }
 
-        public int? GAMES { get; set; }
+        public int GAMES { get; set; }
 
-        public DateTime? LASTGAME { get; set; }
+        public DateTime LASTGAME { get; set; }
     }
 }
