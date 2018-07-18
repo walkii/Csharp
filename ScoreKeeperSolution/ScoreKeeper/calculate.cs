@@ -86,71 +86,63 @@ namespace ScoreKeeper
 
         public void SaveScoreSQL(User user)
         {
-            SqlConnection myConnectionSQL = new SqlConnection("Server=DESKTOP-VKS9AR0\\SQLEXPRESS;Database=ScoreKeeper;Trusted_Connection=True;");
-            SqlCommand insertSQL;
             SqlParameter myParamName, myParamPoints, myParamGames, myParamLastGame;
 
-            try
+            using (var db = new ScoreKeeperContext())
             {
-                myConnectionSQL.Open();
-                ListUsersSave = List();
-
-                myParamName = new SqlParameter("@ParamName", SqlDbType.VarChar, 255);
+                myParamName = new SqlParameter("@Name", SqlDbType.VarChar, 100);
                 myParamName.Value = user.Name;
-                myParamPoints = new SqlParameter("@ParamPoints", SqlDbType.Int, 4);
+                myParamPoints = new SqlParameter("@Points", SqlDbType.Int, 4);
                 myParamPoints.Value = user.Points;
-                myParamGames = new SqlParameter("@ParamGames", SqlDbType.Int, 4);
+                myParamGames = new SqlParameter("@Games", SqlDbType.Int, 4);
                 myParamGames.Value = user.Games;
-                myParamLastGame = new SqlParameter("@ParamLastGame", SqlDbType.DateTime, 255);
+                myParamLastGame = new SqlParameter("@LastGame", SqlDbType.DateTime, 255);
                 myParamLastGame.Value = user.LastGame;
 
-                insertSQL = new SqlCommand("EXEC InserUser @Name = @ParamName, @Points = @ParamPoints, @Games = @ParamGames, @LastGame = @ParamLastGame", myConnectionSQL);
-                insertSQL.Parameters.Add(myParamName);
-                insertSQL.Parameters.Add(myParamPoints);
-                insertSQL.Parameters.Add(myParamGames);
-                insertSQL.Parameters.Add(myParamLastGame);
-                insertSQL.ExecuteNonQuery();
+                db.Database.ExecuteSqlCommand("exec InserUser @Name, @Points, @Games, @LastGame", myParamName, myParamPoints, myParamGames, myParamLastGame);
+            }
 
-                myConnectionSQL.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
         }
 
         public void InputScoreSQL()
         {
-            SqlConnection myConnectionSQL = new SqlConnection("Server=DESKTOP-VKS9AR0\\SQLEXPRESS;Database=ScoreKeeper;Trusted_Connection=True;");
-            int points, games;
-            DateTime lastGame;
-
-            try
+            using (var db = new ScoreKeeperContext())
             {
-                myConnectionSQL.Open();
-                SqlDataReader myReader = null;
-                SqlCommand myCommand = new SqlCommand("SELECT * FROM dbo.score", myConnectionSQL);
-                myReader = myCommand.ExecuteReader();
-
-                while (myReader.Read())
+                var query = from b in db.scores select b;
+                foreach (var item in query)
                 {
-                    int.TryParse(myReader["POINTS"].ToString(), out points);
-                    int.TryParse(myReader["GAMES"].ToString(), out games);
-                    DateTime.TryParse(myReader["LASTGAME"].ToString(), out lastGame);
-                    ListUsers.Add(new User(myReader["NAME"].ToString(), points, games, lastGame));
+                    ListUsers.Add(new User(item.NAME, item.POINTS, item.GAMES, item.LASTGAME));
                 }
-
-                myConnectionSQL.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
             }
         }
 
         public void testbdd()
         {
-           
+            using (var db = new ScoreKeeperContext())
+            {
+                //var score = new score { NAME = "test", POINTS = 2, GAMES = 1, LASTGAME = DateTime.Now };
+                // db.scores.Add(score);
+                //db.SaveChanges();
+
+                var myParamName = new SqlParameter("@Name", SqlDbType.VarChar, 100);
+                myParamName.Value = "tes";
+                var myParamPoints = new SqlParameter("@Points", SqlDbType.Int, 4);
+                myParamPoints.Value = 1;
+                var myParamGames = new SqlParameter("@Games", SqlDbType.Int, 4);
+                myParamGames.Value = 1;
+                var myParamLastGame = new SqlParameter("@LastGame", SqlDbType.DateTime, 255);
+                myParamLastGame.Value = DateTime.Now;
+
+                var courseList = db.Database.ExecuteSqlCommand("exec InserUser @Name, @Points, @Games, @LastGame", myParamName, myParamPoints, myParamGames, myParamLastGame);
+
+                var query = from b in db.scores select b;
+
+                Console.WriteLine("All blogs in the database:");
+                foreach (var item in query)
+                {
+                    Console.WriteLine(item.NAME);
+                }
+            }
         }
     }
 }

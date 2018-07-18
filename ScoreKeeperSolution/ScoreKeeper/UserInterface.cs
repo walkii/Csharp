@@ -17,14 +17,14 @@ namespace ScoreKeeper
 
             Console.WriteLine("Type of link, Bdd or none");
             readInput = ControlString(Console.ReadLine());
-
+          
             if (readInput == "Bdd")
             {
                 linkBDD = true;
             }
 
             var calculate = new Calculate(linkBDD);
-
+            //calculate.testbdd();
             if (linkBDD)
             {
                 calculate.InputScoreSQL();
