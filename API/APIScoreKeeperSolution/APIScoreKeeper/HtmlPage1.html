@@ -1,10 +1,12 @@
 ﻿<!DOCTYPE html>
+<title>ScoreKeeper App</title>
 <html>
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="PageCss.css" />
+    
 </head>
-    <title>ScoreKeeper App</title>
+
 <body>
     <div class="block1">
         <h2 title="Scores">All Scores</h2>
@@ -17,10 +19,12 @@
         </div>
     </div>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         var uri = 'api/score';
-
+        //const axios = require('axios');
         $(document).ready(function () {
+            /*
             // Send an AJAX request
             $.getJSON(uri)
                 .done(function (data) {
@@ -30,8 +34,31 @@
                         //$('<li>', { text: formatItem(item) }).appendTo($('#scores'));
                         addTable(item);
                     });
+                });*/
+           
+
+            // Make a request for a user with a given ID
+            axios.get(uri)
+                .then(function (response) {
+                    // handle success
+ 
+                    response.data.forEach(function (item) {
+                        addTable(item);
+                    });
+
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
                 });
         });
+
+
+
+
 
         function formatItem(item) {
             return "Name : " + item.Name + " Points : " + item.Points + " Games : " + item.Games + " Last game : " + item.LastGame;
@@ -42,10 +69,10 @@
             var tblBody = document.createElement("tbody");
             var row = document.createElement("tr");
             var cellName = document.createElement("td");
-            var cellTextName = document.createTextNode(item.Name); 
+            var cellTextName = document.createTextNode(item.Name);
             cellName.appendChild(cellTextName);
             var cellPoint = document.createElement("td");
-            var cellTextPoint = document.createTextNode(item.Points+" Points");
+            var cellTextPoint = document.createTextNode(item.Points + " Points");
             cellPoint.appendChild(cellTextPoint);
             row.appendChild(cellName);
             row.appendChild(cellPoint);
