@@ -1,83 +1,95 @@
 ﻿<!DOCTYPE html>
-<title>ScoreKeeper App</title>
-<html>
+
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="PageCss.css" />
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Written by Julien Author">
+    <link rel="apple-touch-icon" sizes="180x180" href="data/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="data/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="data/favicon-16x16.png">
+    <link rel="manifest" href="data/site.json">
+    <link rel="mask-icon" href="data/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>Score App</title>
 </head>
 
 <body>
     <div class="block1">
-        <h2 title="Scores">All Scores</h2>
+        <h1 title="Scores">All Scores</h1>
         <!--<ul id="scores" />-->
         <div id="table">
             <table id="myTable"></table>
         </div>
         <div class="image">
-            <img src="images/bascket.jpg">
+            <img class="img" src="images/bascket.jpg" alt="bascket">
         </div>
     </div>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        var uri = 'api/score';
-        //const axios = require('axios');
-        $(document).ready(function () {
-            /*
-            // Send an AJAX request
-            $.getJSON(uri)
-                .done(function (data) {
-                    // On success, 'data' contains a list of products.
-                    $.each(data, function (key, item) {
-                        // Add a list item for the product.
-                        //$('<li>', { text: formatItem(item) }).appendTo($('#scores'));
-                        addTable(item);
-                    });
-                });*/
-           
 
-            // Make a request for a user with a given ID
-            axios.get(uri)
-                .then(function (response) {
-                    // handle success
- 
-                    response.data.forEach(function (item) {
-                        addTable(item);
-                    });
-
-                })
-                .catch(function (error) {
-                    // handle error
-                    console.log(error);
-                })
-                .then(function () {
-                    // always executed
-                });
-        });
-
-
-
-
-
-        function formatItem(item) {
-            return "Name : " + item.Name + " Points : " + item.Points + " Games : " + item.Games + " Last game : " + item.LastGame;
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('service-worker.js')
+                .then(function () { console.log('Service Worker Registered'); });
         }
+       
+        var uri = 'api/score';
+        var jsons = { "name": ["", "", "", "", ""], "points": ["", "", "", "", ""] };
+        var i = 0;
+       
+        function getdata() {
+            var dataNoneParse = localStorage.getItem('myKey');
+            var dataParse = JSON.parse(dataNoneParse);
+            console.log(dataParse);
+            for (i in dataParse.name) {
+                console.log(dataParse.name[i]);
+                console.log(dataParse.points[i]);
+                addTable(dataParse.name[i], dataParse.points[i]);
+            }
+        }
+       
+        // Make a request for a user with a given ID
+        axios.get(uri)
+            .then(function (response) {
+                // handle success
 
-        function addTable(item) {
+                response.data.forEach(function (item) {              
+                    jsons.name[i] = item.Name;
+                    jsons.points[i] = item.Points;
+                    i++;
+                });
+                localStorage.setItem('myKey', JSON.stringify(jsons));
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+                getdata();
+            });
+
+      
+        function addTable(name,points) {
+
             var IdTable = document.getElementById("myTable");
-            var tblBody = document.createElement("tbody");
+            // var tblBody = document.createElement("tbody");
             var row = document.createElement("tr");
             var cellName = document.createElement("td");
-            var cellTextName = document.createTextNode(item.Name);
+            var cellTextName = document.createTextNode(name);
             cellName.appendChild(cellTextName);
             var cellPoint = document.createElement("td");
-            var cellTextPoint = document.createTextNode(item.Points + " Points");
+            var cellTextPoint = document.createTextNode(points + " Points");
             cellPoint.appendChild(cellTextPoint);
             row.appendChild(cellName);
             row.appendChild(cellPoint);
-            tblBody.appendChild(row);
-            IdTable.appendChild(tblBody);
+            //tblBody.appendChild(row);
+            IdTable.appendChild(row);
         }
 
     </script>

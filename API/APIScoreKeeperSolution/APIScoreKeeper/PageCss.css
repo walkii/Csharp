@@ -1,12 +1,20 @@
 ﻿body {
-    background-color:azure;
+    background-color: azure;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+h1{
+    margin:5px;
 }
 
 .block1 {
     width: 400px;
     height: 600px;
     background-color: #333333;
-    color:white;
+    color: white;
     padding: 5px;
 }
 
@@ -16,9 +24,11 @@ table, th {
 }
 
 .image {
-    width: 400px;
-    height: 200px;
     margin-top: 20px;
-    display: flex;
-    justify-content: center;
+
+}
+
+.img {
+    width: 100%;
+    height: auto;
 }

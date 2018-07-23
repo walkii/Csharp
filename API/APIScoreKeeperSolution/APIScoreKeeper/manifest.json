@@ -1,0 +1,9 @@
+{
+  "name": "Score",
+  "short_name": "Score",
+  "start_url": ".",
+  "display": "fullscreen",
+  "background_color": "#fff",
+  "theme_color": "#317EFB",
+  "description": "A simply readable Hacker News app."
+}
