@@ -3,6 +3,7 @@ var shellCacheName = "test-v1";
 var filesToCache = [
     "HtmlPage1.html",
     "PageCss.css",
+    "javascript.js",
     "images/bascket.jpg"
 ];
 
