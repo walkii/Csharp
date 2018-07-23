@@ -1,19 +1,91 @@
 ﻿body {
-    background-color: azure;
+    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 30s; /* Safari 4.0 - 8.0 */
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: alternate;
+
+    animation-name: example;
+    animation-duration: 30s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    background-color: white;
+}
+
+@-webkit-keyframes example {
+  0% {background-color:   rgba(255, 0, 0, 0.3);}
+4% {background-color: 	rgba(255, 64, 0, 0.3);}
+8% {background-color: 	rgba(255, 128, 0, 0.3);}
+12% {background-color:  rgba(255, 191, 0, 0.3)}
+16% {background-color:  rgba(255, 255, 0, 0.3);}
+20% {background-color: 	rgba(191, 255, 0, 0.3);}
+24% {background-color: 	rgba(128, 255, 0, 0.3);}
+28% {background-color:  rgba(64, 255, 0, 0.3);}
+32% {background-color: 	rgba(0, 255, 0, 0.3);}
+36% {background-color: 	rgba(0, 255, 64, 0.3);}
+40% {background-color: 	rgba(0, 255, 128, 0.3);}
+44% {background-color: 	rgba(0, 255, 191, 0.3);}
+48% {background-color:  rgba(0, 255, 255, 0.3);}
+52% {background-color: 	rgba(0, 191, 255, 0.3);}
+56% {background-color: 	rgba(0, 128, 255, 0.3);}
+60% {background-color: 	rgba(0, 64, 255, 0.3);}
+64% {background-color:	rgba(0, 0, 255, 0.3);}
+68% {background-color: 	rgba(64, 0, 255, 0.3);}
+72% {background-color: 	rgba(128, 0, 255, 0.3);}
+76% {background-color: 	rgba(191, 0, 255, 0.3);}
+80% {background-color: 	rgba(255, 0, 255, 0.3);}
+84% {background-color: 	rgba(255, 0, 191, 0.3);}
+88% {background-color: 	rgba(255, 0, 128, 0.3);}
+92% {background-color: 	rgba(255, 0, 64, 0.3);}
+96% {background-color: 	rgba(255, 0, 0, 0.3);}
+100% {background-color: rgba(255, 0, 0, 0.3);}
+
+}
+
+/* Standard syntax */
+@keyframes example {
+ 0% {background-color:   rgba(255, 0, 0, 0.3);}
+4% {background-color: 	rgba(255, 64, 0, 0.3);}
+8% {background-color: 	rgba(255, 128, 0, 0.3);}
+12% {background-color:  rgba(255, 191, 0, 0.3)}
+16% {background-color:  rgba(255, 255, 0, 0.3);}
+20% {background-color: 	rgba(191, 255, 0, 0.3);}
+24% {background-color: 	rgba(128, 255, 0, 0.3);}
+28% {background-color:  rgba(64, 255, 0, 0.3);}
+32% {background-color: 	rgba(0, 255, 0, 0.3);}
+36% {background-color: 	rgba(0, 255, 64, 0.3);}
+40% {background-color: 	rgba(0, 255, 128, 0.3);}
+44% {background-color: 	rgba(0, 255, 191, 0.3);}
+48% {background-color:  rgba(0, 255, 255, 0.3);}
+52% {background-color: 	rgba(0, 191, 255, 0.3);}
+56% {background-color: 	rgba(0, 128, 255, 0.3);}
+60% {background-color: 	rgba(0, 64, 255, 0.3);}
+64% {background-color:	rgba(0, 0, 255, 0.3);}
+68% {background-color: 	rgba(64, 0, 255, 0.3);}
+72% {background-color: 	rgba(128, 0, 255, 0.3);}
+76% {background-color: 	rgba(191, 0, 255, 0.3);}
+80% {background-color: 	rgba(255, 0, 255, 0.3);}
+84% {background-color: 	rgba(255, 0, 191, 0.3);}
+88% {background-color: 	rgba(255, 0, 128, 0.3);}
+92% {background-color: 	rgba(255, 0, 64, 0.3);}
+96% {background-color: 	rgba(255, 0, 0, 0.3);}
+100% {background-color: rgba(255, 0, 0, 0.3);}
 }
 
 *, *:before, *:after {
     box-sizing: border-box;
 }
 
-h1{
-    margin:5px;
+h1 {
+    margin: 5px;
+    text-shadow: 2px 2px 5px #3db6e6;
 }
 
 .block1 {
     width: 400px;
     height: 600px;
-    background-color: #333333;
+    /*background-color: #333333;*/
+    background: linear-gradient(to bottom, #333333, #3db6e6);
+    border-radius: 5px;
     color: white;
     padding: 5px;
 }
@@ -25,10 +97,29 @@ table, th {
 
 .image {
     margin-top: 20px;
-
 }
 
 .img {
     width: 100%;
     height: auto;
 }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        top: -5px;
+        left: 105%;
+    }
